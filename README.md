@@ -1,3 +1,3 @@
 A simple topdown racer game made width Processing.
 
-you need to download Processing from https://processing.org/
+To run the game you need to download Processing from https://processing.org/
