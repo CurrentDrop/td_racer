@@ -30,6 +30,7 @@ class Racer {
     if(chunk_type == 10){
       this.pos.set(start_x, start_y);
       this.vel.mult(0);
+      this.heading = 0;
     }
     
     
