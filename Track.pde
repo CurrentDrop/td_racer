@@ -1,8 +1,3 @@
-//Reminder...
-//Chunk generation are done
-//next step, draw Chunks on the track.
-
-
 class Track {
   private int[][] track = {
     {4, 0, 0, 5}, 
@@ -63,7 +58,6 @@ class Track {
   }
 
   void display() {
-    //draw the chunks here!!
     for(Chunk chunk: track_chunks){
       chunk.display();
     }
