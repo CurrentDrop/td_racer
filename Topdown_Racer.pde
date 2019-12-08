@@ -22,6 +22,7 @@ void draw() {
   racer.update();
 }
 
+
 void keyHandler() {
   if (input_keys.contains('w')) racer.accelerate();
   if (input_keys.contains('a')) racer.stear(-0.05);
@@ -29,11 +30,14 @@ void keyHandler() {
   if (input_keys.contains('s')) racer.retard();
 }
 
+
 void keyPressed() {
   if (!input_keys.contains(key)) {
     input_keys.add(key);
   }
 }
+
+
 void keyReleased() {
   if (input_keys.contains(key)) {
     input_keys.remove((Character) key);

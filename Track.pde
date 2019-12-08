@@ -1,20 +1,19 @@
 class Track {
   private int[][] track = {
-    {4, 0, 0, 5}, 
-    {1, 4, 0, 2}, 
-    {1, 3, 0, 5}, 
-    {3, 0, 0, 2}
+    {4, 0, 0, 5,0}, 
+    {1, 4, 0, 2,0}, 
+    {1, 3, 0, 5,0}, 
+    {3, 0, 0, 2,0},
   };
+  
   Chunk[] track_chunks;
 
   int track_rows;
   int track_cols;
-
   int chunk_size;
 
   Track() {
     chunk_size = height/track.length;
-    
     track_chunks = new Chunk[track.length * track[0].length];
     int chunk_id = 0;
     for (int row = 0; row < track.length; row++) {
@@ -23,12 +22,11 @@ class Track {
         chunk_id++;
       }
     }
-
     track_rows = track.length;
     track_cols = track[0].length;
-
-    
   }
+  
+  
   Chunk get_chunk(float x, float y) {
     int row = (int)map(x, 0, height, 0, track_rows);
     int col = (int)map(y, 0, width, 0, track_cols);
@@ -41,6 +39,7 @@ class Track {
     }
     return null;
   }
+  
   
   int get_chunk_type(PVector pos) {
     //return the type of chunk at the given possition
@@ -56,6 +55,7 @@ class Track {
     }
     return chunk_mode;
   }
+
 
   void display() {
     for(Chunk chunk: track_chunks){
