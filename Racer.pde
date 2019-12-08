@@ -10,6 +10,8 @@ class Racer {
   float scalar = 10;
   int score;
   
+  int previus_chunk;
+  
   Track track;
   Racer(float start_x, float start_y, Track track) {
     this.start_x = start_x;
@@ -20,19 +22,25 @@ class Racer {
     vel = new PVector();
     heading = 0;
     score = 0;
-    int prev_chunk;
     this.track = track;
-  }
+  
+    previus_chunk = track.get_chunk(this.pos.x,this.pos.y).ID;
+}
 
   void update() {
     int chunk_type = this.track.get_chunk_type(pos);
-    println(chunk_type);
+    println(score);
     if(chunk_type == 10){
       this.pos.set(start_x, start_y);
       this.vel.mult(0);
       this.heading = 0;
     }
     
+    int current_chunk = this.track.get_chunk(this.pos.x,this.pos.y).ID;
+    if (current_chunk != previus_chunk) {
+      score++;
+    }
+    previus_chunk = current_chunk;
     
     PVector new_vel = PVector.fromAngle(heading);
     new_vel.setMag(vel.mag());
@@ -46,6 +54,7 @@ class Racer {
   }
 
   void display() {
+    strokeWeight(2);
     pushMatrix();
     translate(this.pos.x, this.pos.y);
     rotate(heading);

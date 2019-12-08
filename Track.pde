@@ -24,7 +24,7 @@ class Track {
     int chunk_id = 0;
     for (int row = 0; row < track.length; row++) {
       for (int col = 0; col < track.length; col++) {
-        track_chunks[chunk_id] = new Chunk(col,row, chunk_size, track[col][row], chunk_id);
+        track_chunks[chunk_id] = new Chunk(col,row, chunk_size, track[row][col], chunk_id);
         chunk_id++;
       }
     }
@@ -34,6 +34,19 @@ class Track {
 
     
   }
+  Chunk get_chunk(float x, float y) {
+    int row = (int)map(x, 0, height, 0, track_rows);
+    int col = (int)map(y, 0, width, 0, track_cols);
+    
+    int ID = col * track_cols + row;
+    for ( Chunk chunk: track_chunks) {
+      if (chunk.ID == ID) {
+        return chunk;
+      }
+    }
+    return null;
+  }
+  
   int get_chunk_type(PVector pos) {
     //return the type of chunk at the given possition
     int x = (int) map(pos.x, 0, width, 0, track_cols);
@@ -51,5 +64,8 @@ class Track {
 
   void display() {
     //draw the chunks here!!
+    for(Chunk chunk: track_chunks){
+      chunk.display();
+    }
   }
 }
