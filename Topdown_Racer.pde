@@ -5,7 +5,7 @@ Track track;
 
 void setup() {
   size(600, 600);
-
+  textAlign(LEFT, TOP);
   track = new Track();
   racer = new Racer(track.chunk_size * 1, track.chunk_size * 3 + track.chunk_size / 2,track);
 }

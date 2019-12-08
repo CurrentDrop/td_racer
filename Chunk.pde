@@ -2,20 +2,24 @@ class Chunk {
   float x, y, size;
   int mode, ID;
   Chunk(float x, float y, int size, int mode, int ID) {
-    this.x = x;
-    this.y = y;
+    this.x = x * size;
+    this.y = y * size;
     this.size = size;
     this.mode = mode;
     this.ID = ID;
   }
 
-  void display(int x, int y, float size, int mode) {
+  void display() {
     //Draw the given track type
     float track_width = size * 0.75;
-    noFill();
+    
     pushMatrix();
     translate(x, y);
-    rect(0, 0, size, size);
+    strokeWeight(5);
+    //fill(0);
+    //text(this.ID, 0,0);
+    noFill();
+    //rect(0, 0, size, size);
     if (mode == 0) {
       //Vertical lines
       line(0, size / 2 - track_width / 2, size, size / 2 - track_width / 2);
