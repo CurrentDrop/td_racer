@@ -27,6 +27,7 @@ class Racer {
     this.track = track;
 
     previus_chunk = track.get_chunk(this.pos.x, this.pos.y).ID;
+
   }
 
 
@@ -44,7 +45,7 @@ class Racer {
       }
       previus_chunk = current_chunk;
     }
-    
+
     PVector new_vel = PVector.fromAngle(heading);
     new_vel.setMag(vel.mag());
     new_vel.add(acc);
