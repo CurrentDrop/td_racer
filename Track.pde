@@ -28,8 +28,8 @@ class Track {
   
   
   Chunk get_chunk(float x, float y) {
-    int row = (int)map(x, 0, height, 0, track_rows);
-    int col = (int)map(y, 0, width, 0, track_cols);
+    int row = (int)map(x, 0, game_height, 0, track_rows);
+    int col = (int)map(y, 0, game_width, 0, track_cols);
     
     int ID = col * track_cols + row;
     for ( Chunk chunk: track_chunks) {
@@ -43,8 +43,8 @@ class Track {
   
   int get_chunk_type(PVector pos) {
     //return the type of chunk at the given possition
-    int x = (int) map(pos.x, 0, width, 0, track_cols);
-    int y = (int) map(pos.y, 0, height, 0, track_rows);
+    int x = (int) map(pos.x, 0, game_width, 0, track_cols);
+    int y = (int) map(pos.y, 0, game_height, 0, track_rows);
 
     int chunk_mode;
     try {

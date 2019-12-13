@@ -3,6 +3,9 @@ ArrayList<Character> input_keys = new ArrayList();
 Racer racer;
 Track track;
 
+int game_width = 600;
+int game_height = 600;
+
 void setup() {
   size(600, 600);
   textAlign(LEFT, TOP);
