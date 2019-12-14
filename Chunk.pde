@@ -97,25 +97,25 @@ void drawChunk(float x, float y,float size, int mode) {
     //Arc top-left
     fill(c);
     arc(0, 0, size + track_width, size + track_width, 0, TWO_PI * 0.25);
-    fill(bgColor);
+    fill(background_color);
     arc(0, 0, size - track_width, size - track_width, 0, TWO_PI * 0.25);
   } else if (mode == 3) {
     //Arc top-right
     fill(c);
     arc(size, 0, size + track_width, size + track_width, TWO_PI * 0.25, TWO_PI * 0.50);
-    fill(bgColor);
+    fill(background_color);
     arc(size, 0, size - track_width, size - track_width, TWO_PI * 0.25, TWO_PI * 0.50);
   } else if (mode == 4) {
     //Arc bottom-left
     fill(c);
     arc(size, size, size + track_width, size + track_width, TWO_PI * 0.50, TWO_PI * 0.75);
-    fill(bgColor);
+    fill(background_color);
     arc(size, size, size - track_width, size - track_width, TWO_PI * 0.50, TWO_PI * 0.75);
   } else if (mode == 5) {
     //Arc bottom-right
     fill(c);
     arc(0, size, size + track_width, size + track_width, TWO_PI * 0.75, TWO_PI);
-    fill(bgColor);
+    fill(background_color);
     arc(0, size, size - track_width, size - track_width, TWO_PI * 0.75, TWO_PI);
   }
   popMatrix();

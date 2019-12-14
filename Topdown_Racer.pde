@@ -5,16 +5,18 @@ Track track;
 
 int game_width = 600;
 int game_height = 600;
-color bgColor = color(200);
+color background_color = color(200);
+color game_color = color(#0CAA1D);
+color track_color = color(#676767);
 void setup() {
-  size(800, 600);
+  size(800, 800);
   textAlign(LEFT, TOP);
-  track = new Track();
+  track = new Track(0,0, game_width, game_height);
   racer = new Racer(track.chunk_size * 1, track.chunk_size * 3 + track.chunk_size / 2,track);
 }
 
 void draw() {
-  background(bgColor);
+  background(background_color);
 
   keyHandler();
 
