@@ -3,7 +3,7 @@ class Track {
     {4, 0, 0, 5}, 
     {1, 4, 0, 2}, 
     {1, 3, 0, 5}, 
-    {3, 0, 0, 2},
+    s{3, 0, 0, 2},
   };
   
   Chunk[] track_chunks;
@@ -13,7 +13,7 @@ class Track {
   int chunk_size;
 
   Track() {
-    chunk_size = height/track.length;
+    chunk_size = game_height/track.length;
     track_chunks = new Chunk[track.length * track[0].length];
     int chunk_id = 0;
     for (int row = 0; row < track.length; row++) {

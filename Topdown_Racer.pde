@@ -5,22 +5,22 @@ Track track;
 
 int game_width = 600;
 int game_height = 600;
-
+color bgColor = color(200);
 void setup() {
-  size(600, 600);
+  size(800, 600);
   textAlign(LEFT, TOP);
   track = new Track();
   racer = new Racer(track.chunk_size * 1, track.chunk_size * 3 + track.chunk_size / 2,track);
 }
 
 void draw() {
-  background(200);
+  background(bgColor);
 
   keyHandler();
 
 
   track.display();
-
+  
   racer.display();
   racer.update();
 }
