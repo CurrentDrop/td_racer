@@ -1,3 +1,9 @@
+//Todo:
+//track matrix
+//track pos and width
+//generate track chunks
+
+
 class Track {
   int x_pos; 
   int y_pos; 
