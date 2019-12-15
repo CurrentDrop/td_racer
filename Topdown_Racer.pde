@@ -1,47 +1,42 @@
-ArrayList<Character> input_keys = new ArrayList();
 
-Racer racer;
-Track track;
+color backgroundColor = color(200);
+color gameBoardColor = #000000;
+color trackColor = #000000;
+color strokeColor = #FFFFFF;
 
-int game_width = 600;
-int game_height = 600;
-color background_color = color(200);
-color game_color = color(#0CAA1D);
-color track_color = color(#676767);
+int gamePosX = 30;
+int gamePosY = 30;
+int gameWidth = 600;
+int gameHeight = 600;
+GameBoard gameBoard;
+
 void setup() {
   size(800, 800);
-  textAlign(LEFT, TOP);
-  track = new Track(0,0, game_width, game_height);
-  racer = new Racer(track.chunk_size * 1, track.chunk_size * 3 + track.chunk_size / 2,track);
+
+  gameBoard = new GameBoard(gamePosX, gamePosY, gameWidth, gameHeight);
 }
 
 void draw() {
-  background(background_color);
-
-  keyHandler();
-
-
-  track.display();
+  background(backgroundColor);
   
-  racer.display();
-  racer.update();
+  gameBoard.display();
 }
 
 
+
+ArrayList<Character> input_keys = new ArrayList();
 void keyHandler() {
-  if (input_keys.contains('w')) racer.accelerate();
-  if (input_keys.contains('a')) racer.stear(-0.05);
-  if (input_keys.contains('d')) racer.stear(0.05);
-  if (input_keys.contains('s')) racer.retard();
+  if (input_keys.contains('w')) ;
+  if (input_keys.contains('a')) ;
+  if (input_keys.contains('d')) ;
+  if (input_keys.contains('s')) ;
 }
-
 
 void keyPressed() {
   if (!input_keys.contains(key)) {
     input_keys.add(key);
   }
 }
-
 
 void keyReleased() {
   if (input_keys.contains(key)) {
