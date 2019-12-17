@@ -5,13 +5,15 @@ class GameBoard {
     {2, 4, 1, 6}, 
     {4, 1, 1, 3}, 
   };
+  private int[] startingChunk = {1,3};
+  private int startingHeading = 0; //0 = right, 1 = down, 2 = left, 3 = up
   Chunk[] chunks;
 
   int nCol;
   int nRow;
   int gamePosX;
   int gamePosY;
-
+  
   float chunkSize;
 
   GameBoard(int gamePosX, int gamePosY, int gameWidth, int gameHeight) {
@@ -20,7 +22,7 @@ class GameBoard {
 
     nCol = track[0].length;
     nRow = track.length;
-
+    
     println(nCol, nRow);
     println(gameWidth / nCol, gameHeight / nRow);
     if (gameWidth / nCol < gameHeight / nRow) {
@@ -34,6 +36,7 @@ class GameBoard {
 
   void display() {
     stroke(0);
+    strokeWeight(1);
     pushMatrix();
     translate(this.gamePosX, this.gamePosY);
     fill(gameBoardColor);
@@ -42,6 +45,11 @@ class GameBoard {
       chunk.display();
     }
     popMatrix();
+    
+    PVector start = this.getStartingPos();
+    strokeWeight(10);
+    stroke(255,0,0);
+    point(start.x, start.y);
   }
 
   Chunk[] loadChunks(int[][] track) {
@@ -60,5 +68,13 @@ class GameBoard {
       }
     }
     return chunks;
+  }
+  PVector getStartingPos(){
+    float x = startingChunk[0]*chunkSize + chunkSize/2 + gamePosX;
+    float y = startingChunk[1]*chunkSize + chunkSize/2 + gamePosY;
+    return new PVector(x,y);
+  }
+  float getStartingHeading(){
+    return startingHeading * HALF_PI;
   }
 }

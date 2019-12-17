@@ -19,6 +19,7 @@ class Chunk {
   void display() {
     textAlign(LEFT, TOP);
     fill(255, 0, 0);
+    strokeWeight(1);
     pushMatrix();
     translate(this.posX, this.posY);
     //rect(0, 0, size, size);
