@@ -1,11 +1,11 @@
 
 color backgroundColor = color(200);
-color gameBoardColor = #000000;
+color gameBoardColor = #03F9FF;
 color trackColor = #000000;
 color strokeColor = #FFFFFF;
 
-int gamePosX = 30;
-int gamePosY = 30;
+int gamePosX = 10;
+int gamePosY = 10;
 int gameWidth = 600;
 int gameHeight = 600;
 GameBoard gameBoard;

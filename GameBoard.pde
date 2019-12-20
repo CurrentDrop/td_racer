@@ -23,7 +23,7 @@ class GameBoard {
 
     println(nCol, nRow);
     println(gameWidth / nCol, gameHeight / nRow);
-    if (gameWidth / nCol < gameHeight / nRow) {
+    if (gameWidth / nCol > gameHeight / nRow) {
       chunkSize = gameHeight / nCol;
     } else {
       chunkSize = gameWidth / nRow;
