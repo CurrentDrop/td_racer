@@ -12,13 +12,69 @@ class Chunk {
     this.size = size;
     this.type = type;
     this.id = id;
-
     this.trackWidth = size * 0.75;
   }
+
+
+  boolean onTrack(float racer_x, float racer_y) {
+    float delta_x = racer_x - this.posX;
+    float delta_y = racer_y - this.posY;
+    println((int)delta_x, (int)delta_y, this.id);
+
+    float line1 = (size - trackWidth) / 2; 
+    float line2 = line1 + trackWidth;
+
+    if (this.type == 1) {
+      //Horisontal lines
+      if (delta_y > line1) {
+        if (delta_y < line2) {
+          return true;
+        }
+      }
+    } else if (this.type == 2) {
+      //Vertical lines
+      if (delta_x > line1) {
+        if (delta_x < line2) {
+          return true;
+        }
+      }
+    } else if (type == 3) {
+      //Arc top-left
+      if (dist(0, 0, delta_x, delta_y) > line1) {
+        if (dist(0, 0, delta_x, delta_y) < line2) {
+          return true;
+        }
+      }
+    } else if (type == 4) {
+      //Arc top-right
+      if (dist(size, 0, delta_x, delta_y) > line1) {
+        if (dist(size, 0, delta_x, delta_y) < line2) {
+          return true;
+        }
+      }
+    } else if (type == 5) {
+      //Arc bottom-left
+      if (dist(size, size, delta_x, delta_y) > line1) {
+        if (dist(size, size, delta_x, delta_y) < line2) {
+          return true;
+        }
+      }
+    } else if (type == 6) {
+      //Arc bottom-right
+      if (dist(0, size, delta_x, delta_y) > line1) {
+        if (dist(0, size, delta_x, delta_y) < line2) {
+          return true;
+        }
+      }
+    }  
+    return false;
+  }
+
 
   void display() {
     textAlign(LEFT, TOP);
     fill(255, 0, 0);
+    strokeWeight(3);
     pushMatrix();
     translate(this.posX, this.posY);
     //rect(0, 0, size, size);
@@ -27,64 +83,63 @@ class Chunk {
       rect(0, 0, this.size, this.size);
     } else if (this.type == 1) {
       //Strait horisontal chunk
-      straitChunk(0);
+      drawStraitChunk(0);
     } else if (this.type == 2) {
       //Strait vertical chunk
-      straitChunk(1);
+      drawStraitChunk(1);
     } else if (this.type == 3) {
       //top left curved chunk
-      curvedChunk(0);
+      drawCurvedChunk(0);
     } else if (this.type == 4) {
       //top right curved chunk
-      curvedChunk(1);
+      drawCurvedChunk(1);
     } else if (this.type == 5) {
       //bottom right curved chunk
-      curvedChunk(2);
+      drawCurvedChunk(2);
     } else if (this.type == 6) {
       //bottom left curved chunk
-      curvedChunk(3);
+      drawCurvedChunk(3);
     }
     popMatrix();
   }
-  private void curvedChunk(int dir) {
+
+  private void drawCurvedChunk(int dir) {
     stroke(strokeColor);
     pushMatrix();
     if (dir == 1) {
       rotate(HALF_PI);
       translate(0, -size);
-    }
-    else if (dir == 2) {
+    } else if (dir == 2) {
       rotate(PI);
       translate(-size, -size);
-    }
-    else if (dir == 3) {
+    } else if (dir == 3) {
       rotate(PI + HALF_PI);
       translate(-size, 0);
     }
 
-    float r1 = size + trackWidth;
-    float r2 = size - trackWidth;
+    float outside_curve = size + trackWidth;
+    float inside_curve = size - trackWidth;
     fill(trackColor);
-    arc(0,0,r1,r1,0,HALF_PI);
+    arc(0, 0, outside_curve, outside_curve, 0, HALF_PI);
     fill(gameBoardColor);
-    arc(0,0,r2,r2,0,HALF_PI);
+    arc(0, 0, inside_curve, inside_curve, 0, HALF_PI);
     popMatrix();
   }
 
-  private void straitChunk(int dir) {
+  private void drawStraitChunk(int dir) {
     pushMatrix();
     if (dir == 1) {
       rotate(PI / 2);
       translate(0, -size);
     }
-    float l1 = size/2 + trackWidth/2; 
-    float l2 = size/2 - trackWidth/2;
+    float line1 = size/2 + trackWidth/2; 
+    float line2 = size/2 - trackWidth/2;
     noStroke();
     fill(trackColor);
-    rect(0,l2,size,trackWidth);
+    rect(0, line2, size, trackWidth);
     stroke(strokeColor);
-    line(0, l1, size, l1);
-    line(0, l2, size, l2);
+    line(0, line1, size, line1);
+    line(0, line2, size, line2);
     popMatrix();
   }
 }

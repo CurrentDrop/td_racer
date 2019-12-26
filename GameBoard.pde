@@ -1,14 +1,17 @@
 class GameBoard {
   private int[][] track = {
+
     {5, 1, 1, 6}, 
     {2, 5, 1, 3}, 
     {2, 4, 1, 6}, 
     {4, 1, 1, 3}, 
   };
+  private int[] startingChunk = {1, 3};
+  private int startingHeading = 0; //0 = right, 1 = down, 2 = left, 3 = up
   Chunk[] chunks;
 
-  int nCol;
-  int nRow;
+  int numberOfColumns;
+  int numberOfRows;
   int gamePosX;
   int gamePosY;
 
@@ -18,15 +21,15 @@ class GameBoard {
     this.gamePosX = gamePosX;
     this.gamePosY = gamePosY;
 
-    nCol = track[0].length;
-    nRow = track.length;
+    numberOfColumns = track[0].length;
+    numberOfRows = track.length;
 
-    println(nCol, nRow);
-    println(gameWidth / nCol, gameHeight / nRow);
-    if (gameWidth / nCol > gameHeight / nRow) {
-      chunkSize = gameHeight / nCol;
+    println(numberOfColumns, numberOfRows);
+    println(gameWidth / numberOfColumns, gameHeight / numberOfRows);
+    if (gameWidth / numberOfColumns > gameHeight / numberOfRows) {
+      chunkSize = gameHeight / numberOfColumns;
     } else {
-      chunkSize = gameWidth / nRow;
+      chunkSize = gameWidth / numberOfRows;
     }
 
     chunks = loadChunks(track);
@@ -34,13 +37,21 @@ class GameBoard {
 
   void display() {
     stroke(0);
+    strokeWeight(3);
     pushMatrix();
     translate(this.gamePosX, this.gamePosY);
     fill(gameBoardColor);
-    rect(0,0, gameWidth, gameHeight);
+    rect(0, 0, gameSize, gameSize);
     for (Chunk chunk : chunks) {
       chunk.display();
+      noFill();
+      strokeWeight(1);
+      rect(chunk.posX, chunk.posY, chunkSize, chunkSize);
     }
+    PVector start = this.getStartingPos();
+    strokeWeight(10);
+    stroke(255, 0, 0);
+    point(start.x, start.y);
     popMatrix();
   }
 
@@ -60,5 +71,27 @@ class GameBoard {
       }
     }
     return chunks;
+  }
+  PVector getStartingPos() {
+    float x = startingChunk[0]*chunkSize + chunkSize/2 ;
+    float y = startingChunk[1]*chunkSize + chunkSize/2 ;
+    return new PVector(x, y);
+  }
+  float getStartingHeading() {
+    return startingHeading * HALF_PI;
+  }
+  int getCurrentChunkID(float x, float y) {
+    int col = (int)map(x, 0, gameSize, 0, numberOfColumns);
+    int row = (int)map(y, 0, gameSize, 0, numberOfRows);
+    int ID = row * numberOfRows + col;
+    return ID;
+  }
+  Chunk getCurrentChunk(int ID) {
+    for (Chunk chunk : chunks) {
+      if (chunk.id == ID) {
+        return chunk;
+      }
+    }
+    return null;
   }
 }
