@@ -1,5 +1,5 @@
 ArrayList<Character> input_keys = new ArrayList();
-color backgroundColor = color(200);
+color backgroundColor = #000000;
 color gameBoardColor = #000000;
 color trackColor = #000000;
 color strokeColor = #00BC14;
@@ -11,9 +11,10 @@ int gameHeight = 800;
 int gameSize;
 GameBoard gameBoard;
 Racer racer;
+GUI gui;
 
 void setup() {
-  size(800, 800);
+  size(1000, 800);
   if (gameWidth < gameHeight) {
     gameSize = gameWidth;
   } else {
@@ -21,6 +22,7 @@ void setup() {
   }
   gameBoard = new GameBoard(gamePosX, gamePosY, gameSize, gameSize);
   racer = new Racer(gameBoard);
+  gui = new GUI(800,0,200,800);
 }
 
 void draw() {
@@ -30,6 +32,14 @@ void draw() {
   gameBoard.display();
   racer.display();
   racer.update();
+  
+  gui.addText("Topdown racer");
+  gui.addSpaces(4);
+  gui.addText("Last laptime:");
+  gui.addLaptime(racer.lastLapTime);
+  gui.addText("Best laptime:");
+  gui.addLaptime(racer.bestLapTime);
+  gui.display();
 }
 
 
