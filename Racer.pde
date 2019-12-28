@@ -49,13 +49,6 @@ class Racer {
           if (lastLapTime < bestLapTime) {
             bestLapTime = lastLapTime;
           }
-          int lapSeconds = floor(lastLapTime / 1000);
-          int lapMillis = lastLapTime % 1000;
-          String lapTimeStr = "Last lap: " + lapSeconds + ":" + lapMillis;
-          int bestLapSeconds = floor(bestLapTime / 1000);
-          int bestLapMillis = bestLapTime % 1000;
-          String bestTimeStr = "Best lap: " + bestLapSeconds + ":" + bestLapMillis;
-          println(lap, lastLapTime, lapTimeStr, bestTimeStr);
         }
       }
     } else {

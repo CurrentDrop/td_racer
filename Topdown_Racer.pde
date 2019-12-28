@@ -37,6 +37,8 @@ void draw() {
   gui.addSpaces(4);
   gui.addText("Last laptime:");
   gui.addLaptime(racer.lastLapTime);
+  gui.addText("Best laptime:");
+  gui.addLaptime(racer.bestLapTime);
   gui.display();
 }
 
