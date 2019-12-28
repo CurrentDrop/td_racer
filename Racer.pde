@@ -8,6 +8,10 @@ class Racer {
   int startingChunkID;
   int currentChunkID;
   int score;
+  int lap; // Number of succsesfull laps
+  int lapStartingMillis;
+  int lastLapTime;
+  int bestLapTime = 1000000;
   Racer(GameBoard gb) {
     this.gb = gb;
     this.pos = gb.getStartingPos();
@@ -17,6 +21,7 @@ class Racer {
     this.size = 10;
     startingChunkID = gb.getCurrentChunkID(this.pos.x, this.pos.y);
     currentChunkID = startingChunkID;
+    lapStartingMillis = millis();
   }
 
   void update() {
@@ -28,30 +33,46 @@ class Racer {
     this.pos.add(this.vel);
     this.acc.mult(0);
     getControlls();
-    
-    
-    
+
+
+
     int lastChunkID = currentChunkID;
     currentChunkID = gb.getCurrentChunkID(this.pos.x, this.pos.y);
-    
+
     Chunk currentChunk = gb.getCurrentChunk(currentChunkID);
-    if(!currentChunk.onTrack(this.pos.x, this.pos.y)){
+    if (currentChunk.onTrack(this.pos.x, this.pos.y)) {
+      if (lastChunkID != currentChunkID) {
+        if (currentChunkID == startingChunkID) {
+          lap++;
+          lastLapTime = millis() - lapStartingMillis;
+          lapStartingMillis = millis();
+          if (lastLapTime < bestLapTime) {
+            bestLapTime = lastLapTime;
+          }
+          int lapSeconds = floor(lastLapTime / 1000);
+          int lapMillis = lastLapTime % 1000;
+          String lapTimeStr = "Last lap: " + lapSeconds + ":" + lapMillis;
+          int bestLapSeconds = floor(bestLapTime / 1000);
+          int bestLapMillis = bestLapTime % 1000;
+          String bestTimeStr = "Best lap: " + bestLapSeconds + ":" + bestLapMillis;
+          println(lap, lastLapTime, lapTimeStr, bestTimeStr);
+        }
+      }
+    } else {
       reset();
     }
-    
-    if(lastChunkID != currentChunkID){
-      score++;
-      println(score);
-    }
   }
-  
-  void reset(){
+
+  void reset() {
     this.pos = gb.getStartingPos();
     this.heading = gb.getStartingHeading();
+    this.currentChunkID = startingChunkID;
     this.score = 0;
+    this.lap = 0;
     this.vel.mult(0);
+    this.lapStartingMillis = millis();
   }
-  
+
   void getControlls() {
     if (input_keys.contains('w')) {
       this.accelerate();
@@ -66,8 +87,8 @@ class Racer {
       this.heading += 0.05;
     }
   }
-  
-  
+
+
   void display() {
     noFill();
     strokeWeight(1);
@@ -83,9 +104,10 @@ class Racer {
     addForce(force);
   }
   void decelerate() {
-    PVector force = PVector.fromAngle(this.heading + PI);
-    force.setMag(0.1);
-    addForce(force);
+    //PVector force = PVector.fromAngle(this.heading + PI);
+    //force.setMag(0.1);
+    //addForce(force);
+    this.vel.mult(0.95);
   }
   void addForce(PVector force) {
     this.acc.add(force);
