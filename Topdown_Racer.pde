@@ -2,7 +2,7 @@ ArrayList<Character> input_keys = new ArrayList();
 color backgroundColor = color(200);
 color gameBoardColor = #000000;
 color trackColor = #000000;
-color strokeColor = #FFFFFF;
+color strokeColor = #00BC14;
 
 int gamePosX = 0;
 int gamePosY = 0;
@@ -14,20 +14,19 @@ Racer racer;
 
 void setup() {
   size(800, 800);
-  if(gameWidth < gameHeight){
+  if (gameWidth < gameHeight) {
     gameSize = gameWidth;
-  }else{
+  } else {
     gameSize = gameHeight;
   }
   gameBoard = new GameBoard(gamePosX, gamePosY, gameSize, gameSize);
   racer = new Racer(gameBoard);
-  println(gameBoard.getStartingPos());
 }
 
 void draw() {
   //println(frameRate);
   background(backgroundColor);
-  
+
   gameBoard.display();
   racer.display();
   racer.update();

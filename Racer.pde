@@ -5,7 +5,9 @@ class Racer {
   PVector acc;
   float heading;
   float size;
+  int startingChunkID;
   int currentChunkID;
+  int score;
   Racer(GameBoard gb) {
     this.gb = gb;
     this.pos = gb.getStartingPos();
@@ -13,6 +15,8 @@ class Racer {
     this.acc = new PVector();
     this.heading = gb.getStartingHeading();
     this.size = 10;
+    startingChunkID = gb.getCurrentChunkID(this.pos.x, this.pos.y);
+    currentChunkID = startingChunkID;
   }
 
   void update() {
@@ -24,8 +28,30 @@ class Racer {
     this.pos.add(this.vel);
     this.acc.mult(0);
     getControlls();
+    
+    
+    
+    int lastChunkID = currentChunkID;
     currentChunkID = gb.getCurrentChunkID(this.pos.x, this.pos.y);
+    
+    Chunk currentChunk = gb.getCurrentChunk(currentChunkID);
+    if(!currentChunk.onTrack(this.pos.x, this.pos.y)){
+      reset();
+    }
+    
+    if(lastChunkID != currentChunkID){
+      score++;
+      println(score);
+    }
   }
+  
+  void reset(){
+    this.pos = gb.getStartingPos();
+    this.heading = gb.getStartingHeading();
+    this.score = 0;
+    this.vel.mult(0);
+  }
+  
   void getControlls() {
     if (input_keys.contains('w')) {
       this.accelerate();
@@ -40,21 +66,13 @@ class Racer {
       this.heading += 0.05;
     }
   }
+  
+  
   void display() {
     noFill();
     strokeWeight(1);
     pushMatrix();
     translate(this.pos.x + gb.gamePosX, this.pos.y + gb.gamePosY);
-    fill(255, 0, 0);
-    Chunk currentChunk = gb.getCurrentChunk(currentChunkID);
-    text((int)this.pos.x + ", " + (int)this.pos.y + "\n"+ 
-    (int)(this.pos.x - currentChunk.posX) + ", " + (int)(this.pos.y - currentChunk.posY)+ "\n"+
-      currentChunkID, 15, 0);
-    if (currentChunk.onTrack(this.pos.x, this.pos.y)) {
-      fill(0, 255, 0);
-    } else {
-      fill(255, 0, 0);
-    }
     rotate(this.heading);
     triangle(size, 0, -size, size / 2, -size, -size / 2);
     popMatrix();

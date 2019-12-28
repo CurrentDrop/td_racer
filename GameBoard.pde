@@ -24,8 +24,6 @@ class GameBoard {
     numberOfColumns = track[0].length;
     numberOfRows = track.length;
 
-    println(numberOfColumns, numberOfRows);
-    println(gameWidth / numberOfColumns, gameHeight / numberOfRows);
     if (gameWidth / numberOfColumns > gameHeight / numberOfRows) {
       chunkSize = gameHeight / numberOfColumns;
     } else {
@@ -46,7 +44,7 @@ class GameBoard {
       chunk.display();
       noFill();
       strokeWeight(1);
-      rect(chunk.posX, chunk.posY, chunkSize, chunkSize);
+      //rect(chunk.posX, chunk.posY, chunkSize, chunkSize);
     }
     PVector start = this.getStartingPos();
     strokeWeight(10);

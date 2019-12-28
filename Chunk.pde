@@ -19,7 +19,6 @@ class Chunk {
   boolean onTrack(float racer_x, float racer_y) {
     float delta_x = racer_x - this.posX;
     float delta_y = racer_y - this.posY;
-    println((int)delta_x, (int)delta_y, this.id);
 
     float line1 = (size - trackWidth) / 2; 
     float line2 = line1 + trackWidth;
@@ -127,13 +126,13 @@ class Chunk {
   }
 
   private void drawStraitChunk(int dir) {
+    float line1 = size/2 + trackWidth/2; 
+    float line2 = size/2 - trackWidth/2;
     pushMatrix();
     if (dir == 1) {
       rotate(PI / 2);
       translate(0, -size);
     }
-    float line1 = size/2 + trackWidth/2; 
-    float line2 = size/2 - trackWidth/2;
     noStroke();
     fill(trackColor);
     rect(0, line2, size, trackWidth);
