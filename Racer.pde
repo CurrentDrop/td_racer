@@ -1,105 +1,93 @@
 class Racer {
-
-  float start_x;
-  float start_y;
-
+  GameBoard gb;
   PVector pos;
-  PVector acc;
   PVector vel;
+  PVector acc;
   float heading;
-  float scalar = 10;
+  float size;
+  int startingChunkID;
+  int currentChunkID;
   int score;
-
-  int previus_chunk;
-
-  Track track;
-  boolean onTrack = true;
-
-  Racer(float start_x, float start_y, Track track) {
-    this.start_x = start_x;
-    this.start_y = start_y;
-
-    pos = new PVector(start_x, start_y);
-    acc = new PVector();
-    vel = new PVector();
-    heading = 0;
-    score = 0;
-    this.track = track;
-
-    previus_chunk = track.get_chunk(this.pos.x, this.pos.y).ID;
-
+  Racer(GameBoard gb) {
+    this.gb = gb;
+    this.pos = gb.getStartingPos();
+    this.vel = new PVector();
+    this.acc = new PVector();
+    this.heading = gb.getStartingHeading();
+    this.size = 10;
+    startingChunkID = gb.getCurrentChunkID(this.pos.x, this.pos.y);
+    currentChunkID = startingChunkID;
   }
-
 
   void update() {
-    Chunk chunk = track.get_chunk(this.pos.x, this.pos.y);
-    this.onTrack = chunk.onTrack(this.pos.x, this.pos.y);
-    if (!this.onTrack) {
+    PVector newVel = PVector.fromAngle(heading);
+    newVel.setMag(this.vel.mag());
+    newVel.add(this.acc);
+    newVel.mult(0.99);
+    this.vel = newVel.copy();
+    this.pos.add(this.vel);
+    this.acc.mult(0);
+    getControlls();
+    
+    
+    
+    int lastChunkID = currentChunkID;
+    currentChunkID = gb.getCurrentChunkID(this.pos.x, this.pos.y);
+    
+    Chunk currentChunk = gb.getCurrentChunk(currentChunkID);
+    if(!currentChunk.onTrack(this.pos.x, this.pos.y)){
       reset();
-    } else {
-
-      int current_chunk = this.track.get_chunk(this.pos.x, this.pos.y).ID;
-      if (current_chunk != previus_chunk) {
-        score++;
-        println(score);
-      }
-      previus_chunk = current_chunk;
     }
-
-    PVector new_vel = PVector.fromAngle(heading);
-    new_vel.setMag(vel.mag());
-    new_vel.add(acc);
-    new_vel.mult(0.99);
-    if (new_vel.mag() < 0.05) new_vel.setMag(0);
-
-    vel = new_vel.copy();
-    pos.add(vel);
-    acc.mult(0);
+    
+    if(lastChunkID != currentChunkID){
+      score++;
+      println(score);
+    }
   }
-
-
-  void display() {
-    strokeWeight(2);
-    pushMatrix();
-    translate(this.pos.x, this.pos.y);
-    rotate(heading);
-    if (onTrack) {
-      fill(0, 255, 0);
-    } else {
-      fill(255, 0, 0);
+  
+  void reset(){
+    this.pos = gb.getStartingPos();
+    this.heading = gb.getStartingHeading();
+    this.score = 0;
+    this.vel.mult(0);
+  }
+  
+  void getControlls() {
+    if (input_keys.contains('w')) {
+      this.accelerate();
     }
-    triangle(1 * scalar, 0, -1 * scalar, 0.5 * scalar, -1 * scalar, -0.5 * scalar);
+    if (input_keys.contains('s')) {
+      this.decelerate();
+    }
+    if (input_keys.contains('a')) {
+      this.heading -= 0.05;
+    }
+    if (input_keys.contains('d')) {
+      this.heading += 0.05;
+    }
+  }
+  
+  
+  void display() {
+    noFill();
+    strokeWeight(1);
+    pushMatrix();
+    translate(this.pos.x + gb.gamePosX, this.pos.y + gb.gamePosY);
+    rotate(this.heading);
+    triangle(size, 0, -size, size / 2, -size, -size / 2);
     popMatrix();
   }
-
-
   void accelerate() {
-    PVector force = PVector.fromAngle(heading);
+    PVector force = PVector.fromAngle(this.heading);
     force.setMag(0.1);
     addForce(force);
   }
-
-
-  void retard() {
-    this.vel.mult(0.95);
+  void decelerate() {
+    PVector force = PVector.fromAngle(this.heading + PI);
+    force.setMag(0.1);
+    addForce(force);
   }
-
-
-  void stear(float angle) {
-    this.heading += angle;
-  }
-
-
   void addForce(PVector force) {
     this.acc.add(force);
-  }
-
-
-  void reset() {
-    this.pos.set(start_x, start_y);
-    this.vel.mult(0);
-    this.heading = 0;
-    this.score = 0;
-    previus_chunk = this.track.get_chunk(this.pos.x, this.pos.y).ID;
   }
 }
