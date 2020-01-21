@@ -28,7 +28,6 @@ class Racer {
     PVector newVel = PVector.fromAngle(heading);
     newVel.setMag(this.vel.mag());
     newVel.add(this.acc);
-    newVel.mult(0.99);
     this.vel = newVel.copy();
     this.pos.add(this.vel);
     this.acc.mult(0);
@@ -69,9 +68,11 @@ class Racer {
   void getControlls() {
     if (input_keys.contains('w')) {
       this.accelerate();
+    }else{
+      this.decelerate(0.99);
     }
     if (input_keys.contains('s')) {
-      this.decelerate();
+      this.decelerate(0.95);
     }
     if (input_keys.contains('a')) {
       this.heading -= 0.05;
@@ -96,11 +97,11 @@ class Racer {
     force.setMag(0.1);
     addForce(force);
   }
-  void decelerate() {
+  void decelerate(float rate) {
     //PVector force = PVector.fromAngle(this.heading + PI);
     //force.setMag(0.1);
     //addForce(force);
-    this.vel.mult(0.95);
+    this.vel.mult(rate);
   }
   void addForce(PVector force) {
     this.acc.add(force);

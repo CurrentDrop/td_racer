@@ -42,9 +42,6 @@ void draw() {
   gui.display();
 }
 
-
-
-
 void keyHandler() {
   if (input_keys.contains('w')) ;
   if (input_keys.contains('a')) ;

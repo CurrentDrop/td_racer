@@ -46,10 +46,6 @@ class GameBoard {
       strokeWeight(1);
       //rect(chunk.posX, chunk.posY, chunkSize, chunkSize);
     }
-    PVector start = this.getStartingPos();
-    strokeWeight(10);
-    stroke(255, 0, 0);
-    point(start.x, start.y);
     popMatrix();
   }
 
@@ -71,7 +67,7 @@ class GameBoard {
     return chunks;
   }
   PVector getStartingPos() {
-    float x = startingChunk[0]*chunkSize + chunkSize/2 ;
+    float x = startingChunk[0]*chunkSize + chunkSize * 0.1 ;
     float y = startingChunk[1]*chunkSize + chunkSize/2 ;
     return new PVector(x, y);
   }
