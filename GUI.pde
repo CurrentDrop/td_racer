@@ -5,6 +5,7 @@ class GUI {
   int h;
   ArrayList<String> textList;
   int textSize = 20;
+  
   GUI(int x, int y, int w, int h) {
     this.x = x;
     this.y = y;

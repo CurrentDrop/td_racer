@@ -1,74 +1,19 @@
-class Racer {
+class Racer extends GameObject {
   GameBoard gb;
-  PVector pos;
-  PVector vel;
-  PVector acc;
-  float heading;
-  float size;
-  int startingChunkID;
-  int currentChunkID;
-  int score;
-  int lap; // Number of succsesfull laps
-  int lapStartingMillis;
-  int lastLapTime;
-  int bestLapTime = 1000000;
-  Racer(GameBoard gb) {
-    this.gb = gb;
-    this.pos = gb.getStartingPos();
-    this.vel = new PVector();
-    this.acc = new PVector();
-    this.heading = gb.getStartingHeading();
-    this.size = 10;
-    startingChunkID = gb.getCurrentChunkID(this.pos.x, this.pos.y);
-    currentChunkID = startingChunkID;
-    lapStartingMillis = millis();
+  Racer(GameBoard gb, Handler handler) {
+    super(gb, handler);
+    this.c = #FF0000;
   }
 
   void update() {
-    PVector newVel = PVector.fromAngle(heading);
-    newVel.setMag(this.vel.mag());
-    newVel.add(this.acc);
-    this.vel = newVel.copy();
-    this.pos.add(this.vel);
-    this.acc.mult(0);
-    getControlls();
-
-
-
-    int lastChunkID = currentChunkID;
-    currentChunkID = gb.getCurrentChunkID(this.pos.x, this.pos.y);
-
-    Chunk currentChunk = gb.getCurrentChunk(currentChunkID);
-    if (currentChunk.onTrack(this.pos.x, this.pos.y)) {
-      if (lastChunkID != currentChunkID) {
-        if (currentChunkID == startingChunkID) {
-          lap++;
-          lastLapTime = millis() - lapStartingMillis;
-          lapStartingMillis = millis();
-          if (lastLapTime < bestLapTime) {
-            bestLapTime = lastLapTime;
-          }
-        }
-      }
-    } else {
-      reset();
-    }
-  }
-
-  void reset() {
-    this.pos = gb.getStartingPos();
-    this.heading = gb.getStartingHeading();
-    this.currentChunkID = startingChunkID;
-    this.score = 0;
-    this.lap = 0;
-    this.vel.mult(0);
-    this.lapStartingMillis = millis();
+    super.update();
+    this.getControlls();
   }
 
   void getControlls() {
     if (input_keys.contains('w')) {
       this.accelerate();
-    }else{
+    } else {
       this.decelerate(0.99);
     }
     if (input_keys.contains('s')) {
@@ -80,30 +25,5 @@ class Racer {
     if (input_keys.contains('d')) {
       this.heading += 0.05;
     }
-  }
-
-
-  void display() {
-    noFill();
-    strokeWeight(1);
-    pushMatrix();
-    translate(this.pos.x + gb.gamePosX, this.pos.y + gb.gamePosY);
-    rotate(this.heading);
-    triangle(size, 0, -size, size / 2, -size, -size / 2);
-    popMatrix();
-  }
-  void accelerate() {
-    PVector force = PVector.fromAngle(this.heading);
-    force.setMag(0.1);
-    addForce(force);
-  }
-  void decelerate(float rate) {
-    //PVector force = PVector.fromAngle(this.heading + PI);
-    //force.setMag(0.1);
-    //addForce(force);
-    this.vel.mult(rate);
-  }
-  void addForce(PVector force) {
-    this.acc.add(force);
   }
 }

@@ -10,6 +10,7 @@ int gameWidth = 800;
 int gameHeight = 800;
 int gameSize;
 GameBoard gameBoard;
+Handler handler;
 Racer racer;
 GUI gui;
 
@@ -21,32 +22,18 @@ void setup() {
     gameSize = gameHeight;
   }
   gameBoard = new GameBoard(gamePosX, gamePosY, gameSize, gameSize);
-  racer = new Racer(gameBoard);
-  gui = new GUI(800,0,200,800);
+  handler = new Handler();
+
+  gui = new GUI(800, 0, 200, 800);
 }
 
 void draw() {
-  //println(frameRate);
   background(backgroundColor);
-
+  if (handler.handler.size() < 1) {
+    handler.add(new Racer(gameBoard, handler));
+  }
   gameBoard.display();
-  racer.display();
-  racer.update();
-  
-  gui.addText("Topdown racer");
-  gui.addSpaces(4);
-  gui.addText("Last laptime:");
-  gui.addLaptime(racer.lastLapTime);
-  gui.addText("Best laptime:");
-  gui.addLaptime(racer.bestLapTime);
-  gui.display();
-}
-
-void keyHandler() {
-  if (input_keys.contains('w')) ;
-  if (input_keys.contains('a')) ;
-  if (input_keys.contains('d')) ;
-  if (input_keys.contains('s')) ;
+  handler.update();
 }
 
 void keyPressed() {
